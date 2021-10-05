@@ -3,6 +3,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { receivedActions } from "../store/receivedPlace";
 import { searchActions } from "../store/searchBarValue";
 
+import styles from "./SearchBar.module.css";
+
 const SearchBar = () => {
   const inputRef = useRef();
   const dispatch = useDispatch();
@@ -61,12 +63,14 @@ const SearchBar = () => {
   };
 
   return (
-    <main>
+    <main className={styles.searchForm}>
       <form onSubmit={searchHandler}>
-        <input ref={inputRef} type="text" />
-        <button>Search</button>
+        <input ref={inputRef} type="text" className={styles.userInput} />
+        <button className={styles.userButton}>Search</button>
       </form>
-      <button onClick={geoHandler}>Find Me!</button>
+      <button onClick={geoHandler} className={styles.userButton}>
+        Find Me!
+      </button>
     </main>
   );
 };
