@@ -2,6 +2,7 @@ import { useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { receivedActions } from "../store/receivedPlace";
 import { searchActions } from "../store/searchBarValue";
+import Button from "../UI/Button";
 
 import styles from "./SearchBar.module.css";
 
@@ -34,7 +35,6 @@ const SearchBar = () => {
       async function getApiGeo() {
         try {
           dispatch(searchActions.textReceive(""));
-          /* -----------GET LOCATION---------- */
           const apiRevUrl = `https://nominatim.openstreetmap.org/reverse?format=geojson&lat=${apiLat}&lon=${apiLon}`;
           const apiResLoc = await fetch(apiRevUrl);
           let apiDataLoc = await apiResLoc.json();
@@ -66,11 +66,11 @@ const SearchBar = () => {
     <main className={styles.searchForm}>
       <form onSubmit={searchHandler}>
         <input ref={inputRef} type="text" className={styles.userInput} />
-        <button className={styles.userButton}>Search</button>
+        <Button>Search</Button>
       </form>
-      <button onClick={geoHandler} className={styles.userButton}>
+      <Button onClick={geoHandler} className={styles.userButton}>
         Find Me!
-      </button>
+      </Button>
     </main>
   );
 };
