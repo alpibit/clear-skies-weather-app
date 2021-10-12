@@ -17,7 +17,6 @@ const receivedPlaceSlice = createSlice({
       state.apiTown = action.payload[0].namedetails.name || "";
       state.apiState = action.payload[0].address.state || "";
       state.apiCountry = action.payload[0].address.country;
-      console.log(action.payload[0].address.country);
     },
     getGeoData(state, action) {
       state.apiLat = action.payload.features[0].geometry.coordinates[1]

@@ -1,5 +1,5 @@
-import { useRef } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useState } from "react";
+import { useDispatch } from "react-redux";
 import { receivedActions } from "../store/receivedPlace";
 import { searchActions } from "../store/searchBarValue";
 import Button from "../UI/Button";
@@ -7,21 +7,32 @@ import Button from "../UI/Button";
 import styles from "./SearchBar.module.css";
 
 const SearchBar = () => {
-  const inputRef = useRef();
+  const [enteredPlace, setEnteredPlace] = useState("");
   const dispatch = useDispatch();
-  const searchReport = useSelector((state) => state.searchBarValue.text);
 
   // Reading input and sending it to Redux
 
+  const placeInputChangeHandler = (event) => {
+    setEnteredPlace(event.target.value);
+  };
+
   const searchHandler = (event) => {
     event.preventDefault();
-    dispatch(searchActions.textReceive(inputRef.current.value));
-    console.log(searchReport);
+    dispatch(receivedActions.getErrorData(""));
+    if (enteredPlace) {
+      dispatch(searchActions.textReceive(enteredPlace));
+      setEnteredPlace("");
+    } else {
+      dispatch(receivedActions.getErrorData("Please enter valid location"));
+    }
   };
 
   // Geolocation API and reverse geocoding with Nominatim API
 
   const geoHandler = () => {
+    dispatch(receivedActions.getErrorData(""));
+    setEnteredPlace("");
+
     const options = {
       enableHighAccuracy: true,
       timeout: 3000,
@@ -38,7 +49,6 @@ const SearchBar = () => {
           const apiRevUrl = `https://nominatim.openstreetmap.org/reverse?format=geojson&lat=${apiLat}&lon=${apiLon}`;
           const apiResLoc = await fetch(apiRevUrl);
           let apiDataLoc = await apiResLoc.json();
-          console.log(apiDataLoc);
           dispatch(receivedActions.getGeoData(apiDataLoc));
         } catch (error) {
           dispatch(
@@ -65,7 +75,12 @@ const SearchBar = () => {
   return (
     <main className={styles.searchForm}>
       <form onSubmit={searchHandler}>
-        <input ref={inputRef} type="text" className={styles.userInput} />
+        <input
+          type="text"
+          value={enteredPlace}
+          className={styles.userInput}
+          onChange={placeInputChangeHandler}
+        />
         <Button>Search</Button>
       </form>
       <Button onClick={geoHandler} className={styles.userButton}>
