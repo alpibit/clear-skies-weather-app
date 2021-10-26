@@ -41,18 +41,18 @@ const WeatherTab = () => {
     <Fragment>
       <Card>
         <img src={Icon[weatherIconNow]} />
-        <div>{weatherNow}</div>
-        <div>{weatherNowFeelsLike}</div>
+        <div>{`Currently : ${weatherNow}°C`}</div>
+        <div>{`Feels like : ${weatherNowFeelsLike}°C`}</div>
       </Card>
       <Card>
         <img src={Icon[weatherTodayIcon]} />
-        <div>{weatherToday}</div>
-        <div>{weatherTodayNight}</div>
+        <div>{`Today : ${weatherToday}°C`}</div>
+        <div>{`Tonight - ${weatherTodayNight}°C`}</div>
       </Card>
       <Card>
         <img src={Icon[weatherTomorrowIcon]} />
-        <div>{weatherTomorrow}</div>
-        <div>{weatherTomorrowNight}</div>
+        <div>{`Tomorrow : ${weatherTomorrow}°C`}</div>
+        <div>{`Tomorrow Night : ${weatherTomorrowNight}°C`}</div>
       </Card>
     </Fragment>
   );
